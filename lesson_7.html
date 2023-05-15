@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Oleksandr Neschasnij">
+<meta name="dcterms.date" content="2023-05-15">
+
+<title>Економетрика: лабораторна робота №7</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="lesson_7_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lesson_7_files/libs/quarto-html/quarto.js"></script>
+<script src="lesson_7_files/libs/quarto-html/popper.min.js"></script>
+<script src="lesson_7_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="lesson_7_files/libs/quarto-html/anchor.min.js"></script>
+<link href="lesson_7_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lesson_7_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="lesson_7_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="lesson_7_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="lesson_7_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<style>
+    .quarto-title-block .quarto-title-banner {
+      background-image: url(images/banner.jpg);
+background-size: cover;
+    }
+    </style>
+
+
+</head>
+
+<body>
+
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Економетрика: лабораторна робота №7</h1>
+            <p class="subtitle lead">Побудувати економетричні моделі часових рядів:статичну, динамічну(лагові незалежні змінні, авторегресійні розподілені лаги). Оцінити ефективність моделей. Запропонувати покращення специфікацій моделей. Провести інтернепреатцію отриманих коефіцієнтів регресії</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Автор</div>
+      <div class="quarto-title-meta-contents">
+               <p>Oleksandr Neschasnij </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Дата публікації</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 15, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Зміст</h2>
+   
+  <ul class="collapse">
+  <li><a href="#статична-модель" id="toc-статична-модель" class="nav-link active" data-scroll-target="#статична-модель">Статична модель</a>
+  <ul class="collapse">
+  <li><a href="#підготовка-датасету-та-моделі" id="toc-підготовка-датасету-та-моделі" class="nav-link" data-scroll-target="#підготовка-датасету-та-моделі">Підготовка датасету та моделі</a></li>
+  <li><a href="#сша" id="toc-сша" class="nav-link" data-scroll-target="#сша">США</a></li>
+  <li><a href="#індія" id="toc-індія" class="nav-link" data-scroll-target="#індія">Індія</a></li>
+  </ul></li>
+  <li><a href="#динамічна-модель" id="toc-динамічна-модель" class="nav-link" data-scroll-target="#динамічна-модель">Динамічна модель</a>
+  <ul class="collapse">
+  <li><a href="#модель-з-лаговими-незалежними-змінними" id="toc-модель-з-лаговими-незалежними-змінними" class="nav-link" data-scroll-target="#модель-з-лаговими-незалежними-змінними">Модель з лаговими незалежними змінними</a></li>
+  <li><a href="#динамічна-модель-з-авторегресійними-розподіленими-лагами" id="toc-динамічна-модель-з-авторегресійними-розподіленими-лагами" class="nav-link" data-scroll-target="#динамічна-модель-з-авторегресійними-розподіленими-лагами">Динамічна модель з авторегресійними розподіленими лагами</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="статична-модель" class="level1">
+<h1>Статична модель</h1>
+<section id="підготовка-датасету-та-моделі" class="level2">
+<h2 class="anchored" data-anchor-id="підготовка-датасету-та-моделі">Підготовка датасету та моделі</h2>
+<p>Змінюємо тип даних з <strong>dbl</strong> на <strong>date</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>timePeriodModel <span class="ot">&lt;-</span> excel_file <span class="sc">%&gt;%</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as_date</span>(<span class="fu">paste</span>(year, <span class="st">"01"</span>, <span class="st">"01"</span>, <span class="at">sep =</span> <span class="st">"-"</span>), <span class="st">"%Y-%m-%d"</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">index.price =</span> <span class="fu">as.numeric</span>(index.price)) </span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: There was 1 warning in `mutate()`.
+ℹ In argument: `year = as_date(paste(year, "01", "01", sep = "-"),
+  "%Y-%m-%d")`.
+Caused by warning:
+! `tz` argument is ignored by `as_date()`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.tibble</span>(timePeriodModel)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `as.tibble()` was deprecated in tibble 2.0.0.
+ℹ Please use `as_tibble()` instead.
+ℹ The signature and semantics have changed, see `?as_tibble`.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 369 × 14
+   stock.index country       year       index.price log_indexprice inflationrate
+   &lt;chr&gt;       &lt;chr&gt;         &lt;date&gt;           &lt;dbl&gt;          &lt;dbl&gt;         &lt;dbl&gt;
+ 1 NASDAQ      United State… 1980-01-01        169.           2.23          0.14
+ 2 NASDAQ      United State… 1981-01-01        203.           2.31          0.1 
+ 3 NASDAQ      United State… 1982-01-01        189.           2.28          0.06
+ 4 NASDAQ      United State… 1983-01-01        285.           2.46          0.03
+ 5 NASDAQ      United State… 1984-01-01        249.           2.4           0.04
+ 6 NASDAQ      United State… 1985-01-01        290.           2.46          0.04
+ 7 NASDAQ      United State… 1986-01-01        367.           2.56          0.02
+ 8 NASDAQ      United State… 1987-01-01        403.           2.6           0.04
+ 9 NASDAQ      United State… 1988-01-01        374.           2.57          0.04
+10 NASDAQ      United State… 1989-01-01        438.           2.64          0.05
+# ℹ 359 more rows
+# ℹ 8 more variables: oil.prices &lt;dbl&gt;, exchange_rate &lt;dbl&gt;, gdppercent &lt;dbl&gt;,
+#   percapitaincome &lt;dbl&gt;, unemploymentrate &lt;dbl&gt;, manufacturingoutput &lt;dbl&gt;,
+#   tradebalance &lt;dbl&gt;, USTreasury &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Робимо вибірку для в окремі змінні для 2-ох країн: США та Індія. Також заповнимо пусті клітинки з NA, використовуючи функцію <strong><em><code>na_interpolation</code></em></strong></p>
+</section>
+<section id="сша" class="level2">
+<h2 class="anchored" data-anchor-id="сша">США</h2>
+<p>Перетворимо дані в часовий ряд за допомогою функції <strong><code>ts()</code></strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ts_USA <span class="ot">&lt;-</span> <span class="fu">ts</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">14</span>, <span class="at">data =</span> USA_tpm,<span class="at">start=</span><span class="fu">c</span>(<span class="dv">1980</span>, <span class="dv">1</span>), <span class="at">end=</span> <span class="dv">2020</span>, <span class="at">frequency=</span><span class="dv">6</span>) </span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Модель для США:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>USA_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_indexprice <span class="sc">~</span> inflationrate <span class="sc">+</span> oil.prices <span class="sc">+</span> percapitaincome <span class="sc">+</span> manufacturingoutput, <span class="at">data =</span> ts_USA)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(USA_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log_indexprice ~ inflationrate + oil.prices + percapitaincome + 
+    manufacturingoutput, data = ts_USA)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.19440 -0.06233 -0.02674  0.03914  0.42859 
+
+Coefficients:
+                      Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)          1.900e+00  6.217e-02  30.557  &lt; 2e-16 ***
+inflationrate       -2.334e+00  3.999e-01  -5.837 1.74e-08 ***
+oil.prices          -3.532e-03  4.203e-04  -8.404 4.09e-15 ***
+percapitaincome      2.912e-05  1.006e-06  28.934  &lt; 2e-16 ***
+manufacturingoutput  1.629e-03  3.539e-04   4.603 6.81e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1115 on 236 degrees of freedom
+Multiple R-squared:  0.9479,    Adjusted R-squared:  0.947 
+F-statistic:  1073 on 4 and 236 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abs</span>(<span class="fu">qt</span>(<span class="fl">0.1</span>, <span class="dv">236</span>))</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.285149</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(USA_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                            2.5 %        97.5 %
+(Intercept)          1.777320e+00  2.022284e+00
+inflationrate       -3.122221e+00 -1.546556e+00
+oil.prices          -4.360201e-03 -2.704146e-03
+percapitaincome      2.713791e-05  3.110342e-05
+manufacturingoutput  9.319130e-04  2.326512e-03</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(USA_lm<span class="sc">$</span>residuals, <span class="at">type =</span> <span class="st">"correlation"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lesson_7_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(USA_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Durbin-Watson test
+
+data:  USA_lm
+DW = 0.76368, p-value &lt; 2.2e-16
+alternative hypothesis: true autocorrelation is greater than 0</code></pre>
+</div>
+</div>
+<p>Інтерпритація таких графіків доволі проста. На даному графіку спостерігається значення автокорильованих залишків, що взаємодіють між собою. Вісь х відповідає різним лагам, тобто числу псріодів, за якими розраховується коефіцієнт автокореляції, а вісь у показує кореляцію для кожного з відставань. Пунктирна блакитна лінія покаїзує рівень значущості.</p>
+<p>Перша вертикальна лінія, де лаг— 0, показує кореляцію залишків із самим собою, тому завжди 100%-ва.При відсутності автокореляції наступні вертикальні смуги будуть швидко спадати</p>
+<p>Також перевірити наявність цього явища можна за допомогою тесту Д-В</p>
+<p><strong><em>Тест Дарбіна-Вотсона</em></strong> - це статистичний тест на автокореляцію ряду залишків після регресійного аналізу. Він дозволяє виявити наявність автокореляції першого порядку в залишках регресійної моделі.</p>
+<p>Як бачимо з результатів тесту у моделі присутня позитивна автокореляція</p>
+<p>Створення часового ряду для візуалізації окремих показників: індекс ціни, ціну на нафту та виручку виробництв</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ts_USA_logindex <span class="ot">&lt;-</span> <span class="fu">ts</span>(USA_tpm<span class="sc">$</span>log_indexprice, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1980</span>, <span class="dv">1</span>), <span class="at">end =</span> <span class="dv">2020</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>USA_plot_1 <span class="ot">&lt;-</span> <span class="fu">autoplot</span>(ts_USA_logindex, <span class="at">xlab =</span> <span class="st">"Рік"</span>, <span class="at">ylab =</span> <span class="st">"Індекс ціни в США"</span>) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"blue"</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>ts_USA_index <span class="ot">&lt;-</span> <span class="fu">ts</span>(USA_tpm<span class="sc">$</span>index.price, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1980</span>, <span class="dv">1</span>), <span class="at">end =</span> <span class="dv">2020</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>USA_plot_2 <span class="ot">&lt;-</span> <span class="fu">autoplot</span>(ts_USA_index, <span class="at">xlab =</span> <span class="st">"Рік"</span>, <span class="at">ylab =</span> <span class="st">"Логарифм індексу цін в США "</span>) <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(USA_plot_1, USA_plot_2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="lesson_7_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ts_USA_oil <span class="ot">&lt;-</span> <span class="fu">ts</span>(USA_tpm<span class="sc">$</span>oil.prices, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1980</span>, <span class="dv">1</span>), <span class="at">end =</span> <span class="dv">2020</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(ts_USA_oil, <span class="at">xlab =</span> <span class="st">"Рік"</span>, <span class="at">ylab =</span> <span class="st">"Ціни на паливо в США"</span>) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"darkgreen"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="lesson_7_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ts_USA_manuf <span class="ot">&lt;-</span> <span class="fu">ts</span>(USA_tpm<span class="sc">$</span>manufacturingoutput, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1980</span>, <span class="dv">1</span>), <span class="at">end =</span> <span class="dv">2020</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(ts_USA_manuf, <span class="at">xlab =</span> <span class="st">"Рік"</span>, <span class="at">ylab =</span> <span class="st">"Виручкка виробництв США"</span>) <span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"cyan"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="lesson_7_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="індія" class="level2">
+<h2 class="anchored" data-anchor-id="індія">Індія</h2>
+<p>Перетворимо дані в часовий ряд</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ts_India <span class="ot">&lt;-</span> <span class="fu">ts</span>(<span class="dv">4</span><span class="sc">:</span><span class="dv">14</span>, <span class="at">data =</span> India_tpm,<span class="at">start=</span><span class="fu">c</span>(<span class="dv">1980</span>, <span class="dv">1</span>), <span class="at">end=</span> <span class="dv">2020</span>, <span class="at">frequency=</span><span class="dv">6</span>) </span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Модель для Індії:</p>
+<p>Також перевіримо довірчі інтервали та t-критерій</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>India_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_indexprice <span class="sc">~</span> inflationrate <span class="sc">+</span> oil.prices <span class="sc">+</span> percapitaincome <span class="sc">+</span> gdppercent <span class="sc">+</span> manufacturingoutput, <span class="at">data =</span> ts_India)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(India_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log_indexprice ~ inflationrate + oil.prices + percapitaincome + 
+    gdppercent + manufacturingoutput, data = ts_India)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.30057 -0.16226  0.01154  0.14392  0.32271 
+
+Coefficients:
+                      Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)          3.4194610  0.0756635  45.193  &lt; 2e-16 ***
+inflationrate       -2.5078943  0.4408207  -5.689 3.78e-08 ***
+oil.prices           0.0032930  0.0007862   4.189 3.97e-05 ***
+percapitaincome     -0.0010104  0.0003126  -3.232   0.0014 ** 
+gdppercent          -0.9278404  0.5302075  -1.750   0.0814 .  
+manufacturingoutput  0.0083238  0.0015251   5.458 1.22e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1876 on 235 degrees of freedom
+Multiple R-squared:  0.8871,    Adjusted R-squared:  0.8847 
+F-statistic: 369.1 on 5 and 235 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abs</span>(<span class="fu">qt</span>(<span class="fl">0.1</span>, <span class="dv">235</span>))</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.285164</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(India_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                           2.5 %        97.5 %
+(Intercept)          3.270395519  3.5685264238
+inflationrate       -3.376359550 -1.6394290526
+oil.prices           0.001744103  0.0048418298
+percapitaincome     -0.001626186 -0.0003945691
+gdppercent          -1.972407451  0.1167266324
+manufacturingoutput  0.005319248  0.0113284346</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(USA_lm<span class="sc">$</span>residuals, <span class="at">type =</span> <span class="st">"correlation"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lesson_7_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(USA_lm)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Durbin-Watson test
+
+data:  USA_lm
+DW = 0.76368, p-value &lt; 2.2e-16
+alternative hypothesis: true autocorrelation is greater than 0</code></pre>
+</div>
+</div>
+<p>Створення часового ряду для візуалізації окремих показників: індекс ціни, відсоток ВВП та дохід на душу населення.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>ts_India_logindex <span class="ot">&lt;-</span> <span class="fu">ts</span>(India_tpm<span class="sc">$</span>log_indexprice, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1980</span>, <span class="dv">1</span>), <span class="at">end =</span> <span class="dv">2020</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>India_plot_1 <span class="ot">&lt;-</span> <span class="fu">autoplot</span>(ts_India_logindex, <span class="at">xlab =</span> <span class="st">"Рік"</span>, <span class="at">ylab =</span> <span class="st">"Індекс ціни в Індії"</span>) <span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"blue"</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>ts_India_index <span class="ot">&lt;-</span> <span class="fu">ts</span>(India_tpm<span class="sc">$</span>index.price, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1980</span>, <span class="dv">1</span>), <span class="at">end =</span> <span class="dv">2020</span>)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>India_plot_2 <span class="ot">&lt;-</span> <span class="fu">autoplot</span>(ts_India_index, <span class="at">xlab =</span> <span class="st">"Рік"</span>, <span class="at">ylab =</span> <span class="st">"Логарифм індексу цін в Індії "</span>) <span class="sc">+</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(India_plot_1, India_plot_2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="lesson_7_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>ts_India_income <span class="ot">&lt;-</span> <span class="fu">ts</span>(India_tpm<span class="sc">$</span>percapitaincome, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1980</span>, <span class="dv">1</span>), <span class="at">end =</span> <span class="dv">2020</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(ts_India_income, <span class="at">xlab =</span> <span class="st">"Рік"</span>, <span class="at">ylab =</span> <span class="st">"Дохід на душу населення в Індії"</span>) <span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"darkgreen"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="lesson_7_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>ts_India_gdp <span class="ot">&lt;-</span> <span class="fu">ts</span>(India_tpm<span class="sc">$</span>gdppercent, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1980</span>, <span class="dv">1</span>), <span class="at">end =</span> <span class="dv">2020</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(ts_India_gdp, <span class="at">xlab =</span> <span class="st">"Рік"</span>, <span class="at">ylab =</span> <span class="st">"ВВП в Індії"</span>) <span class="sc">+</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"cyan"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="lesson_7_files/figure-html/unnamed-chunk-10-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="динамічна-модель" class="level1">
+<h1>Динамічна модель</h1>
+<p><strong><em>Динамічна модель</em></strong> є математичною моделлю, яка використовується для аналізу процесів, що змінюються в часі. Наприклад, часовий ряд, який відображає зміни якоїсь змінної відносно часу. У динамічній моделі вони описуються не тільки за допомогою попередніх значень, але й за допомогою змінних, які залежать від змінних попередніх періодів. Вони називаються <strong><em>лаговими змінними</em></strong>, а їх кількість - <strong><em>лагами</em></strong>. Таким чином, динамічна модель дозволяє врахувати залежність між змінними в часі, що дозволяє більш точно описати реальні процеси.</p>
+<section id="модель-з-лаговими-незалежними-змінними" class="level2">
+<h2 class="anchored" data-anchor-id="модель-з-лаговими-незалежними-змінними">Модель з лаговими незалежними змінними</h2>
+<p>Створюємо модель, використовуючи у ній <strong><code>lag()</code></strong>, функцію для створення лагових змінних з кількістю лагів, вказаних у параметрі <strong><code>k</code></strong></p>
+<section id="сша-1" class="level3">
+<h3 class="anchored" data-anchor-id="сша-1">США</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>USA_lm_lag <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_indexprice <span class="sc">~</span> inflationrate <span class="sc">+</span> <span class="fu">lag</span>(inflationrate, <span class="dv">1</span>)  <span class="sc">+</span> oil.prices <span class="sc">+</span> <span class="fu">lag</span>(oil.prices, <span class="dv">1</span>) <span class="sc">+</span> percapitaincome, <span class="at">data =</span> ts_USA)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(USA_lm_lag)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log_indexprice ~ inflationrate + lag(inflationrate, 
+    1) + oil.prices + lag(oil.prices, 1) + percapitaincome, data = ts_USA)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.14439 -0.07627 -0.02251  0.04114  0.40923 
+
+Coefficients:
+                        Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)            2.184e+00  3.864e-02  56.531  &lt; 2e-16 ***
+inflationrate         -1.622e+00  4.451e-01  -3.643 0.000331 ***
+lag(inflationrate, 1) -1.376e+00  3.941e-01  -3.490 0.000576 ***
+oil.prices            -1.411e-03  5.344e-04  -2.640 0.008840 ** 
+lag(oil.prices, 1)    -2.094e-03  5.314e-04  -3.940 0.000108 ***
+percapitaincome        3.185e-05  9.420e-07  33.812  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.111 on 234 degrees of freedom
+  (1 observation deleted due to missingness)
+Multiple R-squared:  0.9481,    Adjusted R-squared:  0.947 
+F-statistic: 854.2 on 5 and 234 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(USA_lm_lag<span class="sc">$</span>residuals, <span class="at">type =</span> <span class="st">"correlation"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lesson_7_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(USA_lm_lag)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Durbin-Watson test
+
+data:  USA_lm_lag
+DW = 0.63269, p-value &lt; 2.2e-16
+alternative hypothesis: true autocorrelation is greater than 0</code></pre>
+</div>
+</div>
+</section>
+<section id="індія-1" class="level3">
+<h3 class="anchored" data-anchor-id="індія-1">Індія</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>India_lm_lag <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_indexprice <span class="sc">~</span> inflationrate <span class="sc">+</span> <span class="fu">lag</span>(inflationrate, <span class="dv">1</span>)  <span class="sc">+</span> oil.prices <span class="sc">+</span> <span class="fu">lag</span>(oil.prices, <span class="dv">1</span>) <span class="sc">+</span> percapitaincome <span class="sc">+</span>  manufacturingoutput, <span class="at">data =</span> ts_USA)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(India_lm_lag)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log_indexprice ~ inflationrate + lag(inflationrate, 
+    1) + oil.prices + lag(oil.prices, 1) + percapitaincome + 
+    manufacturingoutput, data = ts_USA)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.12517 -0.06997 -0.02850  0.04987  0.39999 
+
+Coefficients:
+                        Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)            1.878e+00  6.590e-02  28.505  &lt; 2e-16 ***
+inflationrate         -1.562e+00  4.192e-01  -3.728 0.000243 ***
+lag(inflationrate, 1) -1.161e+00  3.731e-01  -3.111 0.002095 ** 
+oil.prices            -1.664e-03  5.052e-04  -3.294 0.001141 ** 
+lag(oil.prices, 1)    -2.710e-03  5.124e-04  -5.289 2.83e-07 ***
+percapitaincome        2.927e-05  1.001e-06  29.251  &lt; 2e-16 ***
+manufacturingoutput    1.907e-03  3.426e-04   5.567 7.12e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1045 on 233 degrees of freedom
+  (1 observation deleted due to missingness)
+Multiple R-squared:  0.9542,    Adjusted R-squared:  0.953 
+F-statistic: 808.3 on 6 and 233 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(USA_lm_lag<span class="sc">$</span>residuals, <span class="at">type =</span> <span class="st">"correlation"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lesson_7_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(USA_lm_lag)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Durbin-Watson test
+
+data:  USA_lm_lag
+DW = 0.63269, p-value &lt; 2.2e-16
+alternative hypothesis: true autocorrelation is greater than 0</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="динамічна-модель-з-авторегресійними-розподіленими-лагами" class="level2">
+<h2 class="anchored" data-anchor-id="динамічна-модель-з-авторегресійними-розподіленими-лагами">Динамічна модель з авторегресійними розподіленими лагами</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>USA_train_size <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="fl">0.8</span> <span class="sc">*</span> <span class="fu">nrow</span>(USA_tpm))</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>USA_train <span class="ot">&lt;-</span> USA_tpm[<span class="dv">1</span><span class="sc">:</span>USA_train_size, ]</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>USA_test <span class="ot">&lt;-</span> USA_tpm[(USA_train_size <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span><span class="fu">nrow</span>(USA_tpm), ]</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Додаємо лагові значення</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>USA_train <span class="ot">&lt;-</span> <span class="fu">mutate</span>(USA_train, </span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">inflation_lag1 =</span> <span class="fu">lag</span>(USA_train<span class="sc">$</span>inflationrate), </span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">inflation_lag2 =</span> <span class="fu">lag</span>(USA_train<span class="sc">$</span>inflationrate, <span class="dv">2</span>),</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">oilprice_lag1 =</span> <span class="fu">lag</span>(USA_train<span class="sc">$</span>oil.prices), </span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">oilprice_lag2 =</span> <span class="fu">lag</span>(USA_train<span class="sc">$</span>oil.prices, <span class="dv">2</span>))</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>USA_train <span class="ot">&lt;-</span> USA_train[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), ]</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Побудова моделі</span></span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>USA_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_indexprice <span class="sc">~</span> inflationrate <span class="sc">+</span> inflation_lag1 <span class="sc">+</span> inflation_lag2 <span class="sc">+</span> oil.prices <span class="sc">+</span> oilprice_lag1 <span class="sc">+</span> oilprice_lag2, <span class="at">data =</span> USA_train)</span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Перевірка на автокореляцію</span></span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(USA_model)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Durbin-Watson test
+
+data:  USA_model
+DW = 0.66241, p-value = 2.892e-06
+alternative hypothesis: true autocorrelation is greater than 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(USA_model<span class="sc">$</span>residuals, <span class="at">type =</span> <span class="st">"correlation"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lesson_7_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Перевірка ефективності моделі</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(USA_model)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log_indexprice ~ inflationrate + inflation_lag1 + 
+    inflation_lag2 + oil.prices + oilprice_lag1 + oilprice_lag2, 
+    data = USA_train)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.42891 -0.09788  0.00041  0.09967  0.44310 
+
+Coefficients:
+                 Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)      3.431550   0.166506  20.609 2.51e-16 ***
+inflationrate  -12.781707   5.607922  -2.279   0.0323 *  
+inflation_lag1  -1.694582   5.912121  -0.287   0.7770    
+inflation_lag2  -5.496582   3.367644  -1.632   0.1163    
+oil.prices       0.005203   0.003328   1.564   0.1316    
+oilprice_lag1    0.004445   0.003594   1.237   0.2286    
+oilprice_lag2   -0.002764   0.003802  -0.727   0.4745    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.2267 on 23 degrees of freedom
+Multiple R-squared:  0.7221,    Adjusted R-squared:  0.6496 
+F-statistic: 9.962 on 6 and 23 DF,  p-value: 1.88e-05</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>USA_test <span class="ot">&lt;-</span> <span class="fu">mutate</span>(USA_test, </span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">inflation_lag1 =</span> <span class="fu">lag</span>(USA_test<span class="sc">$</span>inflationrate), </span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">inflation_lag2 =</span> <span class="fu">lag</span>(USA_test<span class="sc">$</span>inflationrate, <span class="dv">2</span>),</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">oilprice_lag1 =</span> <span class="fu">lag</span>(USA_test<span class="sc">$</span>oil.prices), </span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">oilprice_lag2 =</span> <span class="fu">lag</span>(USA_test<span class="sc">$</span>oil.prices, <span class="dv">2</span>))</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>USA_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(USA_model, <span class="at">newdata =</span> USA_test)</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>USA_pred <span class="ot">&lt;-</span> <span class="fu">na_interpolation</span>(USA_pred)</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>mse <span class="ot">&lt;-</span> <span class="fu">mean</span>((USA_pred <span class="sc">-</span> USA_test<span class="sc">$</span>log_indexprice)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>mse</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1032156</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>USA_test<span class="sc">$</span>log_indexprice</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.47 3.55 3.64 3.69 3.70 3.79 3.87 3.90 4.01</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>USA_pred</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      33       34       35       36       37       38       39       40 
+3.548653 3.548653 3.548653 3.338145 3.440208 3.505896 3.458349 3.403785 
+      41 
+3.533856 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>India_train_size <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="fl">0.8</span> <span class="sc">*</span> <span class="fu">nrow</span>(India_tpm))</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>India_train <span class="ot">&lt;-</span> India_tpm[<span class="dv">1</span><span class="sc">:</span>India_train_size, ]</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>India_test <span class="ot">&lt;-</span> India_tpm[(India_train_size <span class="sc">+</span> <span class="dv">1</span>)<span class="sc">:</span><span class="fu">nrow</span>(India_tpm), ]</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Додаємо лагові значення</span></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>India_train <span class="ot">&lt;-</span> <span class="fu">mutate</span>(India_train, </span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">inflation_lag1 =</span> <span class="fu">lag</span>(India_train<span class="sc">$</span>inflationrate), </span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">inflation_lag2 =</span> <span class="fu">lag</span>(India_train<span class="sc">$</span>inflationrate, <span class="dv">2</span>),</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">oilprice_lag1 =</span> <span class="fu">lag</span>(India_train<span class="sc">$</span>oil.prices), </span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">oilprice_lag2 =</span> <span class="fu">lag</span>(India_train<span class="sc">$</span>oil.prices, <span class="dv">2</span>))</span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>India_train <span class="ot">&lt;-</span> India_train[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), ]</span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Побудова моделі</span></span>
+<span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>India_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_indexprice <span class="sc">~</span> inflationrate <span class="sc">+</span> inflation_lag1 <span class="sc">+</span> inflation_lag2 <span class="sc">+</span> oil.prices <span class="sc">+</span> oilprice_lag1 <span class="sc">+</span> oilprice_lag2, <span class="at">data =</span> India_train)</span>
+<span id="cb59-15"><a href="#cb59-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-16"><a href="#cb59-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Перевірка на автокореляцію</span></span>
+<span id="cb59-17"><a href="#cb59-17" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(India_model)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Durbin-Watson test
+
+data:  India_model
+DW = 0.33756, p-value = 8.917e-10
+alternative hypothesis: true autocorrelation is greater than 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(India_model<span class="sc">$</span>residuals, <span class="at">type =</span> <span class="st">"correlation"</span>)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="lesson_7_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Перевірка ефективності моделі</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(India_model)</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log_indexprice ~ inflationrate + inflation_lag1 + 
+    inflation_lag2 + oil.prices + oilprice_lag1 + oilprice_lag2, 
+    data = India_train)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-0.3683 -0.2183  0.0190  0.1795  0.3689 
+
+Coefficients:
+                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     3.356015   0.203379  16.501 3.05e-14 ***
+inflationrate  -1.037926   1.938867  -0.535   0.5976    
+inflation_lag1 -1.109886   1.960611  -0.566   0.5768    
+inflation_lag2 -1.752719   1.934755  -0.906   0.3744    
+oil.prices      0.010588   0.003961   2.673   0.0136 *  
+oilprice_lag1   0.002497   0.004141   0.603   0.5524    
+oilprice_lag2   0.001730   0.004573   0.378   0.7087    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.2627 on 23 degrees of freedom
+Multiple R-squared:  0.7126,    Adjusted R-squared:  0.6377 
+F-statistic: 9.506 on 6 and 23 DF,  p-value: 2.704e-05</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>India_test <span class="ot">&lt;-</span> <span class="fu">mutate</span>(USA_test, </span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">inflation_lag1 =</span> <span class="fu">lag</span>(India_test<span class="sc">$</span>inflationrate), </span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">inflation_lag2 =</span> <span class="fu">lag</span>(India_test<span class="sc">$</span>inflationrate, <span class="dv">2</span>),</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">oilprice_lag1 =</span> <span class="fu">lag</span>(India_test<span class="sc">$</span>oil.prices), </span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">oilprice_lag2 =</span> <span class="fu">lag</span>(India_test<span class="sc">$</span>oil.prices, <span class="dv">2</span>))</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>India_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(India_model, <span class="at">newdata =</span> India_test)</span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>India_pred <span class="ot">&lt;-</span> <span class="fu">na_interpolation</span>(India_pred)</span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>mse <span class="ot">&lt;-</span> <span class="fu">mean</span>((India_pred <span class="sc">-</span> India_test<span class="sc">$</span>log_indexprice)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>mse</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1102126</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>India_test<span class="sc">$</span>log_indexprice</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.47 3.55 3.64 3.69 3.70 3.79 3.87 3.90 4.01</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>India_pred</span></code><button title="Копіювати" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      33       34       35       36       37       38       39       40 
+4.078978 4.078978 4.078978 3.780680 3.913150 3.999072 3.973083 4.096079 
+      41 
+3.964176 </code></pre>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Скопійовано!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Скопійовано!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
